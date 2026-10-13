@@ -6,6 +6,32 @@
     <meta name="theme-color" content="#0b1220" />
     <title>Structura Lab — Interactive Structural Engineering</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M10 40 Q32 52 54 40' stroke='%23f5c542' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 10v18' stroke='%2338bdf8' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M25 22l7 8 7-8' stroke='%2338bdf8' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <style>
+      /* Channel-subscription gate, shared with the other Reality Engineer tools (same look, same unlock key). */
+      #sgate{--g-bg:rgba(15,22,19,.55);--g-card:#ffffff;--g-ink:#16201E;--g-mut:#46544F;--g-red:#CC1F1F;--g-red-ink:#fff;--g-ok:#23794A;--g-warn-bg:#FAEBD2;--g-warn:#7a4a08;--g-line:#DDE3E0;
+        position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px;background:var(--g-bg);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);font-family:"Inter","IBM Plex Sans Arabic","Almarai",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+      @media (prefers-color-scheme:dark){#sgate{--g-bg:rgba(0,0,0,.6);--g-card:#171F1D;--g-ink:#E4EBE9;--g-mut:#B8C5C1;--g-ok:#5CC08A;--g-warn-bg:#33260F;--g-warn:#E3A94A;--g-line:#2A3431}}
+      #sgate[hidden]{display:none!important}
+      #sgate .gc{background:var(--g-card);color:var(--g-ink);width:100%;max-width:420px;border-radius:20px;padding:26px 22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center;box-sizing:border-box}
+      #sgate .gi{width:64px;height:64px;border-radius:50%;background:var(--g-red);display:grid;place-items:center;margin:0 auto 14px}
+      #sgate h2{margin:0 0 6px;font-size:21px;line-height:1.4;text-wrap:balance;color:var(--g-ink)}
+      #sgate .gs{margin:0 0 4px;color:var(--g-mut);font-size:14.5px;line-height:1.7}
+      #sgate .gch{margin:14px 0 18px;padding:10px 12px;border:1px solid var(--g-line);border-radius:14px;display:flex;gap:10px;align-items:center;justify-content:center;font-size:14px}
+      #sgate .gch b{font-size:15.5px}
+      #sgate .gsteps{list-style:none;margin:0 0 16px;padding:0;text-align:start;font-size:14px;line-height:1.7;color:var(--g-mut)}
+      #sgate .gsteps li{display:flex;gap:8px;align-items:flex-start;margin:4px 0}
+      #sgate .gsteps span{flex:none;width:22px;height:22px;border-radius:50%;background:var(--g-line);color:var(--g-ink);display:grid;place-items:center;font-size:12.5px;font-weight:700;margin-top:2px}
+      #sgate .gb{display:flex;width:100%;box-sizing:border-box;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:14px 18px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none}
+      #sgate .gb.red{background:var(--g-red);color:var(--g-red-ink)}
+      #sgate .gb.ok{background:var(--g-ok);color:#fff;margin-top:10px}
+      #sgate .gb:focus-visible{outline:3px solid #C98612;outline-offset:3px}
+      #sgate .gmsg{margin:12px 0 0;padding:10px 12px;border-radius:12px;font-size:13.5px;line-height:1.7;background:var(--g-warn-bg);color:var(--g-warn)}
+      #sgate .gmsg.good{background:transparent;color:var(--g-ok);font-weight:700;font-size:15px}
+      #sgate .gwait{margin:12px 0 0;font-size:13px;color:var(--g-mut)}
+      #sgate .gfoot{margin:14px 0 0;font-size:12px;color:var(--g-mut)}
+      html.sgate-lock,html.sgate-lock body{overflow:hidden!important}
+      @media (prefers-reduced-motion:no-preference){#sgate .gc{animation:sgIn .35s ease-out}@keyframes sgIn{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}}
+    </style>
     <script type="module" crossorigin src="./assets/index-CrLWxfAy.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/react-BitJ_DBn.js">
     <link rel="modulepreload" crossorigin href="./assets/three-DubwC3lb.js">
@@ -13,5 +39,72 @@
   </head>
   <body>
     <div id="root"></div>
+    <div id="sgate" role="dialog" aria-modal="true" aria-labelledby="sg-t" hidden>
+      <div class="gc">
+        <div class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M9 7.5v9l7.5-4.5z"/></svg></div>
+        <h2 id="sg-t"></h2>
+        <p class="gs" id="sg-s"></p>
+        <div class="gch"><b id="sg-ch"></b><span id="sg-n"></span></div>
+        <ol class="gsteps"><li><span>1</span><div id="sg-1"></div></li><li><span>2</span><div id="sg-2"></div></li></ol>
+        <a class="gb red" id="sg-go" href="https://www.youtube.com/@reality-engineer?sub_confirmation=1" target="_blank" rel="noopener"></a>
+        <div id="sg-state" aria-live="polite"></div>
+        <p class="gfoot" id="sg-f"></p>
+      </div>
+    </div>
+    <script>
+    (function(){
+      /* Same key as the other Reality Engineer tools: one subscription step per device opens them all. */
+      var KEY="mizan-sub", MIN_AWAY=6000;
+      try{ if(localStorage.getItem(KEY)) return; }catch(e){}
+      /* never in the way while developing */
+      if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
+      var L="en";
+      try{
+        var saved=(JSON.parse(localStorage.getItem("structura-lab")||"{}").state||{}).lang;
+        if(saved==="ar"||saved==="en") L=saved;
+        else { var nl=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]);
+          for(var k=0;k<nl.length;k++){ if(String(nl[k]||"").slice(0,2).toLowerCase()==="ar"){ L="ar"; break; } } }
+      }catch(e){}
+      var T={ar:{t:"الأداة مجانية لمشتركي القناة",s:"بُني «المعمل الإنشائي» (Structura Lab) على نفقة قناة «مهندس الواقع»، بلا إعلانات ولا تسجيل. اشتراكك هو ما يُبقيه مجانيًا.",ch:"مهندس الواقع",n:"· أكثر من 90 ألف مشترك",
+            a:"اضغط الزر، فتُفتح القناة ويظهر لك زر «اشتراك» (Subscribe)",b:"اشترك ثم عُد إلى هذه الصفحة، وستُفتح الأداة تلقائيًا",go:"اشترك في القناة",
+            wait:"ننتظر عودتك من يوتيوب…",short:"عدت بسرعة. تأكّد من الضغط على «اشتراك» (Subscribe) في صفحة القناة، ثم عُد إلى هذه الصفحة.",again:"افتح القناة مرة أخرى",
+            ok:"شكرًا لاشتراكك ✓",manual:"اشتركت؟ افتح الأداة",f:"مشترك بالفعل؟ اضغط الزر نفسه ثم عُد. يكفي ذلك مرة واحدة على هذا الجهاز (ويفتح لك «ميزان البناء» و«بوصلة المهندس» أيضًا)."},
+        en:{t:"Free for channel subscribers",s:"Structura Lab is built by the Reality Engineer channel — no ads, no sign-up. Your subscription is what keeps it free.",ch:"Reality Engineer",n:"· 90K+ subscribers",
+            a:"Tap the button — the channel opens with a “Subscribe” prompt",b:"Subscribe, then come back to this page — the tool unlocks by itself",go:"Subscribe to the channel",
+            wait:"Waiting for you to come back from YouTube…",short:"That was quick — make sure you tapped “Subscribe” on the channel page, then come back here.",again:"Open the channel again",
+            ok:"Thanks for subscribing ✓",manual:"Subscribed? Open the tool",f:"Already subscribed? Tap the same button and come back — once per device (it also unlocks Mizan and the Engineer's Compass)."}}[L];
+      var g=document.getElementById("sgate"), $=function(i){return document.getElementById(i)}, st=$("sg-state"), go=$("sg-go");
+      g.setAttribute("dir",L==="ar"?"rtl":"ltr"); g.setAttribute("lang",L);
+      $("sg-t").textContent=T.t; $("sg-s").textContent=T.s; $("sg-ch").textContent=T.ch; $("sg-n").textContent=T.n;
+      $("sg-1").textContent=T.a; $("sg-2").textContent=T.b; go.textContent=T.go; $("sg-f").textContent=T.f;
+      function show(){ g.hidden=false; document.documentElement.classList.add("sgate-lock"); setTimeout(function(){ try{go.focus()}catch(e){} },50); }
+      function unlock(){
+        try{ localStorage.setItem(KEY, String(Date.now())); }catch(e){}
+        st.innerHTML=""; var m=document.createElement("p"); m.className="gmsg good"; m.textContent=T.ok; st.appendChild(m);
+        setTimeout(function(){ g.hidden=true; document.documentElement.classList.remove("sgate-lock"); },900);
+      }
+      function msg(cls,txt,btn){
+        st.innerHTML=""; var p=document.createElement("p"); p.className=cls; p.textContent=txt; st.appendChild(p);
+        if(btn){ var b=document.createElement("button"); b.type="button"; b.className="gb ok"; b.textContent=btn; b.onclick=unlock; st.appendChild(b); }
+      }
+      var clicked=0, leftAt=0, awayTotal=0, fallbackT=null;
+      go.addEventListener("click",function(){
+        clicked=Date.now();
+        msg("gwait",T.wait);
+        clearTimeout(fallbackT);
+        /* if the browser never left the page (split view / blocked pop-up), offer a manual button after 25 s */
+        fallbackT=setTimeout(function(){ if(!leftAt && !awayTotal) msg("gwait",T.wait,T.manual); },25000);
+      });
+      document.addEventListener("visibilitychange",function(){
+        if(!clicked) return;
+        if(document.hidden){ leftAt=Date.now(); return; }
+        if(!leftAt) return;
+        awayTotal+=Date.now()-leftAt; leftAt=0;
+        if(awayTotal>=MIN_AWAY) unlock();
+        else { msg("gmsg",T.short); go.textContent=T.again; }
+      });
+      if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",show); else show();
+    })();
+    </script>
   </body>
 </html>
