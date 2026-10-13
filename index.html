@@ -2,6 +2,35 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <script>
+    /* Entry guard: this tool opens from the Reality Engineer site only. A direct link (typed, shared, bookmarked) goes to the site's home page. */
+    (function(){
+      var HOME="https://realityengineer4u-ship-it.github.io/";
+      if(location.protocol==="file:"||/^(localhost|127\.0\.0\.1|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/.test(location.hostname)) return;
+      var now=Date.now(), ok=false;
+      try{ ok=!!sessionStorage.getItem("re-pass"); }catch(e){}
+      if(!ok){ try{ var t=+localStorage.getItem("re-ticket"); ok=!!t&&now>=t&&now-t<300000; }catch(e){} }
+      if(!ok){ var r=(document.referrer||"").split("#")[0].split("?")[0]; ok=(r===HOME||r===HOME+"index.html"); }
+      if(ok){
+        try{ sessionStorage.setItem("re-pass","1"); }catch(e){}
+        /* a visitor already inside may open a tool link in a new tab or hop to a sibling tool: leave the same short-lived ticket the site's cards leave */
+        ["pointerdown","touchstart","keydown","contextmenu","click","auxclick"].forEach(function(v){ document.addEventListener(v,function(e){
+          var a=e.target&&e.target.closest&&e.target.closest("a[href]");
+          if(a&&String(a.href).indexOf(HOME)===0&&a.pathname!=="/"){ try{ localStorage.setItem("re-ticket",String(Date.now())); }catch(_){} }
+        },{capture:true,passive:true}); });
+        return;
+      }
+      try{ sessionStorage.setItem("re-from",location.pathname); }catch(e){}
+      try{ document.documentElement.style.visibility="hidden"; }catch(e){}
+      location.replace(HOME);
+      /* if the redirect is stopped, never leave a blank page */
+      setTimeout(function(){ try{ document.documentElement.innerHTML='<body style="margin:0;padding:48px 16px;font:17px system-ui,sans-serif;text-align:center;background:#0b0c0f"><a style="color:#f5a524" href="'+HOME+'">realityengineer4u-ship-it.github.io</a></body>'; document.documentElement.style.visibility=""; }catch(e){} },6000);
+    })();
+    </script>
+    <script>
+    /* language handed over by the site's tool card (?lang=ar|en) */
+    (function(){ try{ var m=/[?&]lang=(ar|en)\b/i.exec(location.search||""); if(!m) return; var k="structura-lab", o=JSON.parse(localStorage.getItem(k)||"null")||{state:{},version:0}; o.state=o.state||{}; o.state.lang=m[1].toLowerCase(); localStorage.setItem(k,JSON.stringify(o)); }catch(e){} })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b1220" />
     <title>Structura Lab — Interactive Structural Engineering</title>
